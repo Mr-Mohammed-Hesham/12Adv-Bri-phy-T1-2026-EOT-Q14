@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡ Electric Potential & Particle Energy - فيزياء 12 بريدج | Mr. Mohammed Hesham</title>
+<meta name="description" content="امتحان تفاعلي شامل عن فرق الجهد وطاقة الجسيمات المشحونة - فيزياء 12 بريدج">
+<meta name="author" content="Mr. Mohammed Hesham">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); }
+body.en-mode { font-family: 'Inter', sans-serif; }
+.arabic-math { font-family: 'Amiri', 'Cairo', serif; }
+.correct { background-color: #dcfce7 !important; border-color: #16a34a !important; }
+.incorrect { background-color: #fee2e2 !important; border-color: #dc2626 !important; }
+.timer-warning { color: #dc2626 !important; animation: pulse 1s infinite; }
+@keyframes pulse { 50% { opacity: 0.7; } }
+@media print { .no-print { display: none !important; } }
+.success-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-weight: bold; font-size: 0.875rem; }
+.grade-excellent { background: #dcfce7; color: #166534; }
+.grade-good { background: #fef3c7; color: #92400e; }
+.grade-pass { background: #dbeafe; color: #1e40af; }
+.grade-fail { background: #fee2e2; color: #991b1b; }
+.lang-switch { position: fixed; top: 16px; left: 16px; z-index: 100; background: white; padding: 6px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); display: flex; gap: 4px; border: 2px solid #d97706; }
+[dir="ltr"] .lang-switch { left: auto; right: 16px; }
+.lang-btn { padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: all 0.3s; border: none; font-size: 0.875rem; background: transparent; color: #6b7280; }
+.lang-btn.active { background: #d97706; color: white; box-shadow: 0 2px 6px rgba(217,119,6,0.4); }
+.shuffle-badge { display: inline-block; background: linear-gradient(135deg, #d97706, #b45309); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; margin-right: 8px; }
+.math-display { display: inline-block; direction: ltr; font-family: 'Amiri', serif; font-size: 1.2em; padding: 2px 8px; background: #fef3c7; border-radius: 6px; margin: 2px; color: #92400e; font-weight: 600; }
+.save-indicator { position: fixed; bottom: 20px; left: 20px; z-index: 200; background: #10b981; color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+.save-indicator.show { opacity: 1; }
+.formula-box { background: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px; padding: 12px; margin: 10px 0; font-family: 'Amiri', serif; direction: ltr; text-align: center; }
+.svg-graph { display: block; margin: 12px auto; background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 8px; }
+.graph-container { text-align: center; margin: 10px 0; }
+.module-badge { display: inline-block; padding: 4px 16px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; margin-bottom: 8px; }
+.module-1 { background: #fef3c7; color: #92400e; }
+.module-2 { background: #dbeafe; color: #1e40af; }
+.module-3 { background: #fce7f3; color: #9f1239; }
+.module-4 { background: #ecfdf5; color: #065f46; }
+.module-5 { background: #ede9fe; color: #5b21b6; }
+.module-6 { background: #fee2e2; color: #991b1b; }
+</style>
+</head>
+<body class="p-4 md:p-8 min-h-screen">
+
+<div class="lang-switch no-print">
+<button class="lang-btn active" onclick="setLanguage('ar')" id="btn-ar">عربي</button>
+<button class="lang-btn" onclick="setLanguage('en')" id="btn-en">EN</button>
+</div>
+
+<div id="saveIndicator" class="save-indicator">💾 <span data-ar="تم الحفظ" data-en="Saved">تم الحفظ</span></div>
+
+<div id="timer-container" class="max-w-5xl mx-auto mb-4 text-center no-print">
+<div class="bg-white p-4 rounded-2xl shadow-lg inline-block border-2 border-amber-100">
+<span class="text-gray-600 ml-2">⏰ الوقت المتبقي:</span>
+<span id="timer" class="text-2xl font-bold text-amber-700 font-mono">90:00</span>
+<span class="shuffle-badge"> Electric Potential & Particles - 30 سؤال</span>
+</div>
+</div>
+
+<div class="max-w-5xl mx-auto mb-6 flex flex-wrap gap-3 justify-center no-print">
+<button onclick="toggleAnswers()" class="bg-amber-700 hover:bg-amber-800 text-white px-5 py-2 rounded-xl font-medium transition shadow">👀 إظهار/إخفاء الإجابات</button>
+<button onclick="window.print()" class="bg-gray-700 hover:bg-gray-900 text-white px-5 py-2 rounded-xl font-medium transition shadow">️ طباعة</button>
+<button onclick="reshuffleExam()" class="bg-gradient-to-r from-amber-700 to-orange-600 hover:from-amber-800 hover:to-orange-700 text-white px-5 py-2 rounded-xl font-medium transition shadow">🔄 أسئلة جديدة</button>
+<button onclick="clearProgress()" class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-xl font-medium transition shadow">🗑️ مسح التقدم</button>
+</div>
+
+<header class="max-w-5xl mx-auto bg-white p-8 rounded-3xl shadow-2xl mb-8 border-4 border-amber-500">
+<div class="text-center">
+<div class="inline-block bg-amber-700 text-white px-6 py-2 rounded-full text-sm font-bold mb-4">PHYSICS 12 BRIDGE - QUESTION 14</div>
+<h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">⚡ فرق الجهد وطاقة الجسيمات المشحونة</h1>
+<h2 class="text-xl text-amber-700 font-semibold mb-2">فيزياء 12 متقدم بريدج - الفصل 3.1, 3.3</h2>
+<p class="text-gray-600 mb-4">Electric Potential Difference, Proton Acceleration, Oxygen Ion Beam</p>
+<p class="text-sm text-green-600 font-semibold">💾 يتم حفظ تقدمك تلقائياً - 30 سؤالاً في 6 أقسام</p>
+</div>
+<div class="mt-6 flex flex-wrap justify-center gap-4 text-sm text-gray-600">
+<span>📅 التاريخ: <input type="text" id="examDate" class="border-b-2 border-amber-300 bg-transparent w-32 text-center"></span>
+<span>😊 الاسم: <input type="text" id="studentName" class="border-b-2 border-amber-300 bg-transparent w-40 text-center" placeholder="اكتب اسمك"></span>
+<span> الشعبة: <input type="text" id="studentClass" class="border-b-2 border-amber-300 bg-transparent w-32 text-center" placeholder="الشعبة"></span>
+<span> المدة: 90 دقيقة</span>
+<span>📊 المجموع: 100 درجة</span>
+</div>
+</header>
+
+<div class="max-w-5xl mx-auto mb-6 bg-white p-4 rounded-xl shadow-lg border-2 border-amber-200 no-print">
+<h3 class="font-bold text-lg mb-3 text-amber-800 text-center">📐 القوانين الأساسية</h3>
+<div class="grid md:grid-cols-3 gap-3 text-sm">
+<div class="formula-box"><strong>ΔV = ΔU/q</strong><br>Potential difference</div>
+<div class="formula-box"><strong>ΔK = -ΔU = -qΔV</strong><br>Energy conservation</div>
+<div class="formula-box"><strong>W = -qΔV</strong><br>Work by electric field</div>
+<div class="formula-box"><strong>K = -qΔV</strong><br>For particle from rest</div>
+<div class="formula-box"><strong>e = 1.602 × 10⁻¹⁹ C</strong></div>
+<div class="formula-box"><strong>1 eV = 1.6 × 10⁻¹⁹ J</strong></div>
+</div>
+</div>
+
+<main class="max-w-5xl mx-auto space-y-8" id="exam-content"></main>
+
+<div class="text-center no-print pb-8 mt-8">
+<button onclick="gradeExam()" class="bg-gradient-to-r from-amber-700 to-orange-600 hover:from-amber-800 hover:to-orange-700 text-white text-lg px-12 py-4 rounded-2xl font-bold shadow-xl transition transform hover:scale-105">🎯 صحح إجاباتي!</button>
+</div>
+
+<div id="results-panel" class="max-w-5xl mx-auto mt-8 bg-white p-8 rounded-3xl shadow-2xl border-4 border-amber-500 hidden no-print">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 text-center"> نتيجتك يا بطل! 🏆</h2>
+<div class="grid md:grid-cols-3 gap-4 mb-6">
+<div class="bg-amber-50 p-4 rounded-xl text-center"><p>😊 الاسم</p><p id="res-name" class="font-bold text-xl text-amber-700">-</p></div>
+<div class="bg-orange-50 p-4 rounded-xl text-center"><p>📅 التاريخ</p><p id="res-date" class="font-bold text-xl text-orange-700">-</p></div>
+<div class="bg-amber-50 p-4 rounded-xl text-center"><p>🌟 المجموع</p><p id="res-total" class="font-bold text-3xl text-amber-700">0 / 100</p></div>
+</div>
+<div class="text-center mb-6">
+<span id="success-badge" class="success-badge grade-excellent">-</span>
+<p id="success-percent" class="text-4xl font-bold text-amber-700 mt-2">0%</p>
+<p class="text-sm text-gray-500">نسبة النجاح</p>
+</div>
+<div class="bg-gray-50 p-6 rounded-xl mb-6">
+<h3 class="font-bold text-lg mb-4 text-gray-800">📊 أدائك في كل قسم:</h3>
+<div class="space-y-3" id="sections-performance"></div>
+</div>
+<div class="text-center">
+<button id="sendEmailBtn" onclick="sendResultsToEmail()" class="bg-gradient-to-r from-amber-700 to-orange-600 text-white text-lg px-8 py-3 rounded-2xl font-bold shadow-xl transition">📧 أرسل النتيجة للمعلم</button>
+<p id="emailStatus" class="text-sm mt-2 text-center font-medium"></p>
+</div>
+</div>
+
+<footer class="max-w-5xl mx-auto mt-10 mb-8 text-center text-gray-500 text-sm no-print">
+© Electric Potential & Particles - Grade 12 Bridge | Mr. Mohammed Hesham 
+</footer>
+
+<script>
+const PUBLIC_KEY = "Rb3Lq8tXaFmc5YHUH";
+const SERVICE_ID = "service_w15m64i";
+const TEMPLATE_ID = "template_5b0u2tq";
+const TARGET_EMAIL = "mohammedhesham872@gmail.com";
+emailjs.init(PUBLIC_KEY);
+
+const STORAGE_KEY = 'electric_potential_particles_grade12_v1';
+const TOTAL_TIME = 5400;
+const TOTAL_QUESTIONS = 30;
+const TOTAL_SECTIONS = 6;
+const QUESTIONS_PER_SECTION = 5;
+
+let currentSeed = null;
+let answersVisible = false;
+let saveIndicatorTimeout = null;
+let currentLang = 'ar';
+let timeRemaining = TOTAL_TIME;
+let timerInterval;
+let examData;
+let correctAnswersMap = {};
+let rng = null;
+
+function mulberry32(a) {
+    return function() {
+        var t = a += 0x6D2B79F5;
+        t = Math.imul(t ^ t >>> 15, t | 1);
+        t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    }
+}
+
+function showSaveIndicator() {
+    const indicator = document.getElementById('saveIndicator');
+    indicator.classList.add('show');
+    if (saveIndicatorTimeout) clearTimeout(saveIndicatorTimeout);
+    saveIndicatorTimeout = setTimeout(() => indicator.classList.remove('show'), 1500);
+}
+
+function saveState(showIndicator = true) {
+    try {
+        const state = {
+            seed: currentSeed, lang: currentLang,
+            studentName: document.getElementById('studentName').value,
+            studentClass: document.getElementById('studentClass').value,
+            examDate: document.getElementById('examDate').value,
+            answers: getSelectedAnswers(),
+            timeRemaining: timeRemaining,
+            answersVisible: answersVisible, savedAt: Date.now()
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        if (showIndicator) showSaveIndicator();
+    } catch (e) { console.error('Save error:', e); }
+}
+
+function loadState() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? JSON.parse(saved) : null;
+    } catch (e) { return null; }
+}
+
+function getSelectedAnswers() {
+    const answers = {};
+    for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+        const selected = document.querySelector('input[name="q'+i+'"]:checked');
+        if (selected) answers[i] = selected.value;
+    }
+    return answers;
+}
+
+function restoreAnswers(answers) {
+    if (!answers) return;
+    for (const [idx, val] of Object.entries(answers)) {
+        const radio = document.querySelector('input[name="q'+idx+'"][value="'+val+'"]');
+        if (radio) radio.checked = true;
+    }
+}
+
+function clearProgress() {
+    const msg = currentLang === 'ar' ? '⚠️ هل أنت متأكد من مسح كل التقدم؟' : '️ Clear all progress?';
+    if (confirm(msg)) { localStorage.removeItem(STORAGE_KEY); location.reload(); }
+}
+
+function setupAnswerListeners() {
+    document.getElementById('exam-content').addEventListener('change', (e) => {
+        if (e.target.type === 'radio') saveState();
+    });
+}
+
+function setupInputListeners() {
+    ['studentName', 'studentClass', 'examDate'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', () => saveState(false));
+            el.addEventListener('blur', () => saveState());
+        }
+    });
+}
+
+// ==================== SVG Diagrams ====================
+const svgGraphs = {
+    proton_between_plates: `<svg class="svg-graph" width="400" height="280" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="270" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="14" fill="#92400e" font-weight="bold"> بروتون بين لوحين - Example 3.1</text>
+        <rect x="80" y="60" width="10" height="180" fill="#ef4444" stroke="#991b1b" stroke-width="2"/>
+        <text x="85" y="50" text-anchor="middle" font-size="14" fill="#991b1b" font-weight="bold">+</text>
+        <text x="85" y="255" text-anchor="middle" font-size="10" fill="#991b1b">Positive plate</text>
+        <rect x="310" y="60" width="10" height="180" fill="#3b82f6" stroke="#1e40af" stroke-width="2"/>
+        <text x="315" y="50" text-anchor="middle" font-size="14" fill="#1e40af" font-weight="bold">−</text>
+        <text x="315" y="255" text-anchor="middle" font-size="10" fill="#1e40af">Negative plate</text>
+        <line x1="90" y1="150" x2="310" y2="150" stroke="#7c3aed" stroke-width="1" stroke-dasharray="4"/>
+        <text x="200" y="145" text-anchor="middle" font-size="11" fill="#7c3aed">ΔV = 450 V</text>
+        <circle cx="110" cy="150" r="8" fill="#ef4444" stroke="#991b1b" stroke-width="2"/>
+        <text x="110" y="155" text-anchor="middle" font-size="8" fill="white" font-weight="bold">p⁺</text>
+        <text x="110" y="130" text-anchor="middle" font-size="9" fill="#991b1b">v = 0 (before)</text>
+        <circle cx="250" cy="150" r="8" fill="#ef4444" stroke="#991b1b" stroke-width="2"/>
+        <text x="250" y="155" text-anchor="middle" font-size="8" fill="white" font-weight="bold">p⁺</text>
+        <line x1="258" y1="150" x2="300" y2="150" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow1)"/>
+        <text x="280" y="140" text-anchor="middle" font-size="10" fill="#dc2626" font-weight="bold">v</text>
+        <text x="250" y="130" text-anchor="middle" font-size="9" fill="#991b1b">after (gains KE)</text>
+        <text x="200" y="200" text-anchor="middle" font-size="12" fill="#92400e" font-family="'Amiri', serif" font-weight="bold">K = -qΔV = -(1.6×10⁻¹⁹)(-450)</text>
+        <text x="200" y="225" text-anchor="middle" font-size="13" fill="#dc2626" font-weight="bold">K = 7.21 × 10⁻¹⁷ J</text>
+        <text x="200" y="245" text-anchor="middle" font-size="11" fill="#92400e">Or K = 450 eV</text>
+        <defs><marker id="arrow1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#dc2626"/></marker></defs>
+    </svg>`,
+    
+    oxygen_ion_beam: `<svg class="svg-graph" width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="290" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="14" fill="#1e40af" font-weight="bold">⚛️ حزمة أيونات الأكسجين - Problem 3.1</text>
+        <rect x="50" y="80" width="80" height="100" rx="4" fill="#bfdbfe" stroke="#2563eb" stroke-width="2"/>
+        <text x="90" y="115" text-anchor="middle" font-size="11" fill="#1e40af" font-weight="bold">Accelerator</text>
+        <text x="90" y="135" text-anchor="middle" font-size="10" fill="#1e40af">V = 10.0 MV</text>
+        <text x="90" y="155" text-anchor="middle" font-size="9" fill="#1e40af">Z = 8 (Oxygen)</text>
+        <line x1="130" y1="130" x2="200" y2="130" stroke="#2563eb" stroke-width="3" marker-end="url(#arrow2)"/>
+        <text x="165" y="120" text-anchor="middle" font-size="10" fill="#2563eb" font-weight="bold">O⁸⁺ ions</text>
+        <rect x="200" y="100" width="100" height="60" rx="4" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+        <text x="250" y="125" text-anchor="middle" font-size="11" fill="#991b1b" font-weight="bold">Target</text>
+        <text x="250" y="145" text-anchor="middle" font-size="10" fill="#991b1b">(absorbs beam)</text>
+        <text x="200" y="200" text-anchor="middle" font-size="11" fill="#1e40af">N = 3.13 × 10¹² ions/s</text>
+        <text x="200" y="220" text-anchor="middle" font-size="11" fill="#1e40af">U_ion = qΔV = ZeV</text>
+        <text x="200" y="245" text-anchor="middle" font-size="12" fill="#1e40af" font-weight="bold">P = NZeV = 40.1 W</text>
+        <text x="200" y="270" text-anchor="middle" font-size="11" fill="#1e40af">v = √(2ZeV/m) = 3.10 × 10⁷ m/s</text>
+        <text x="200" y="285" text-anchor="middle" font-size="10" fill="#1e40af">≈ 10% of speed of light</text>
+        <defs><marker id="arrow2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#2563eb"/></marker></defs>
+    </svg>`,
+    
+    potential_difference: `<svg class="svg-graph" width="400" height="240" viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="230" rx="12" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="14" fill="#9f1239" font-weight="bold">⚡ فرق الجهد الكهربائي - Potential Difference</text>
+        <circle cx="100" cy="120" r="30" fill="#fbcfe8" stroke="#ec4899" stroke-width="2"/>
+        <text x="100" y="115" text-anchor="middle" font-size="12" fill="#9f1239" font-weight="bold">Point A</text>
+        <text x="100" y="130" text-anchor="middle" font-size="10" fill="#9f1239">V_A = 180 V</text>
+        <circle cx="300" cy="120" r="30" fill="#fbcfe8" stroke="#ec4899" stroke-width="2"/>
+        <text x="300" y="115" text-anchor="middle" font-size="12" fill="#9f1239" font-weight="bold">Point B</text>
+        <text x="300" y="130" text-anchor="middle" font-size="10" fill="#9f1239">V_B = -60 V</text>
+        <line x1="130" y1="120" x2="270" y2="120" stroke="#dc2626" stroke-width="3" marker-end="url(#arrow3)"/>
+        <text x="200" y="110" text-anchor="middle" font-size="11" fill="#dc2626" font-weight="bold">ΔV = V_B - V_A</text>
+        <text x="200" y="175" text-anchor="middle" font-size="12" fill="#9f1239" font-family="'Amiri', serif" font-weight="bold">ΔV = -60 - 180 = -240 V</text>
+        <text x="200" y="200" text-anchor="middle" font-size="11" fill="#9f1239">W = -qΔV = -(1.6×10⁻¹⁹)(-240)</text>
+        <text x="200" y="220" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="bold">W = 3.84 × 10⁻¹⁷ J</text>
+        <defs><marker id="arrow3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#dc2626"/></marker></defs>
+    </svg>`,
+    
+    alpha_particle: `<svg class="svg-graph" width="400" height="240" viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="230" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="14" fill="#065f46" font-weight="bold">⚛️ جسيم ألفا - Alpha Particle (Problem 3.28)</text>
+        <circle cx="200" cy="120" r="25" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="200" y="115" text-anchor="middle" font-size="10" fill="#065f46" font-weight="bold">α particle</text>
+        <text x="200" y="130" text-anchor="middle" font-size="9" fill="#065f46">2p + 2n</text>
+        <text x="200" y="145" text-anchor="middle" font-size="9" fill="#065f46">q = +2e</text>
+        <text x="200" y="175" text-anchor="middle" font-size="11" fill="#065f46">K = 200 keV = 200,000 eV</text>
+        <text x="200" y="195" text-anchor="middle" font-size="11" fill="#065f46">K = qΔV → ΔV = K/q</text>
+        <text x="200" y="215" text-anchor="middle" font-size="12" fill="#065f46" font-weight="bold">ΔV = 200,000/2 = 100,000 V = 100 kV</text>
+    </svg>`,
+    
+    energy_conservation: `<svg class="svg-graph" width="400" height="260" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="250" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="14" fill="#5b21b6" font-weight="bold">️ حفظ الطاقة - Energy Conservation</text>
+        <rect x="20" y="45" width="360" height="50" rx="6" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="200" y="70" text-anchor="middle" font-size="12" fill="#5b21b6" font-weight="bold">ΔK + ΔU = 0 (Conservation of Energy)</text>
+        <text x="200" y="88" text-anchor="middle" font-size="11" fill="#5b21b6">K_i + U_i = K_f + U_f</text>
+        <rect x="20" y="105" width="170" height="60" rx="6" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="105" y="125" text-anchor="middle" font-size="11" fill="#5b21b6" font-weight="bold">Initial (before)</text>
+        <text x="105" y="145" text-anchor="middle" font-size="10" fill="#5b21b6">K_i = 0 (at rest)</text>
+        <text x="105" y="160" text-anchor="middle" font-size="10" fill="#5b21b6">U_i = qV_i</text>
+        <rect x="210" y="105" width="170" height="60" rx="6" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="295" y="125" text-anchor="middle" font-size="11" fill="#5b21b6" font-weight="bold">Final (after)</text>
+        <text x="295" y="145" text-anchor="middle" font-size="10" fill="#5b21b6">K_f = ? (gained)</text>
+        <text x="295" y="160" text-anchor="middle" font-size="10" fill="#5b21b6">U_f = qV_f</text>
+        <text x="200" y="195" text-anchor="middle" font-size="12" fill="#5b21b6" font-family="'Amiri', serif" font-weight="bold">K_f = -qΔV = -q(V_f - V_i)</text>
+        <text x="200" y="220" text-anchor="middle" font-size="11" fill="#5b21b6">For proton: q = +e = 1.6×10⁻¹⁹ C</text>
+        <text x="200" y="240" text-anchor="middle" font-size="11" fill="#5b21b6">For electron: q = -e = -1.6×10⁻¹⁹ C</text>
+    </svg>`,
+    
+    work_by_field: `<svg class="svg-graph" width="400" height="260" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="250" rx="12" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="14" fill="#991b1b" font-weight="bold"> الشغل وطاقة الوضع - Work & PE</text>
+        <rect x="20" y="45" width="360" height="45" rx="6" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+        <text x="200" y="72" text-anchor="middle" font-size="12" fill="#991b1b" font-weight="bold">W_field = -ΔU = -(U_f - U_i)</text>
+        <rect x="20" y="100" width="360" height="45" rx="6" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+        <text x="200" y="127" text-anchor="middle" font-size="12" fill="#991b1b" font-weight="bold">W_ext = +ΔU = U_f - U_i</text>
+        <rect x="20" y="155" width="360" height="45" rx="6" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+        <text x="200" y="182" text-anchor="middle" font-size="12" fill="#991b1b" font-weight="bold">ΔU = qΔV</text>
+        <rect x="20" y="210" width="360" height="30" rx="6" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+        <text x="200" y="230" text-anchor="middle" font-size="11" fill="#991b1b">W_field = -qΔV</text>
+    </svg>`
+};
+
+// ==================== EXAM DATA - 30 QUESTIONS ====================
+const originalExamData = {
+    sections: [
+        {
+            id: 'sec1',
+            title: { ar: '🔹 القسم 1: فرق الجهد الكهربائي (Q1-Q5)', en: ' Section 1: Electric Potential Difference (Q1-Q5)' },
+            questions: [
+                {
+                    q: { ar: 'ما تعريف فرق الجهد الكهربائي ΔV؟', en: 'What is the definition of electric potential difference ΔV?' },
+                    svg: svgGraphs.potential_difference,
+                    options: [
+                        { ar: '<span class="math-display">ΔV = ΔU/q</span> (التغير في طاقة الوضع لكل وحدة شحنة)', en: '<span class="math-display">ΔV = ΔU/q</span> (change in PE per unit charge)' },
+                        { ar: '<span class="math-display">ΔV = W·q</span>', en: '<span class="math-display">ΔV = W·q</span>' },
+                        { ar: '<span class="math-display">ΔV = E·d</span> فقط', en: '<span class="math-display">ΔV = E·d</span> only' },
+                        { ar: '<span class="math-display">ΔV = q/E</span>', en: '<span class="math-display">ΔV = q/E</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'ΔV = ΔU/q = (U_f - U_i)/q (جول/كولوم = فولت)', en: 'ΔV = ΔU/q = (U_f - U_i)/q (Joule/Coulomb = Volt)' }
+                },
+                {
+                    q: { ar: 'ما وحدة فرق الجهد الكهربائي؟', en: 'What is the unit of electric potential difference?' },
+                    options: [
+                        { ar: 'الفولت (V) = J/C', en: 'Volt (V) = J/C' },
+                        { ar: 'النيوتن (N)', en: 'Newton (N)' },
+                        { ar: 'الكولوم (C)', en: 'Coulomb (C)' },
+                        { ar: 'الجول (J)', en: 'Joule (J)' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الفولت (V) = جول/كولوم = J/C', en: 'Volt (V) = Joule/Coulomb = J/C' }
+                },
+                {
+                    q: { ar: 'إذا تحركت شحنة موجبة من نقطة ذات جهد عالي إلى نقطة ذات جهد منخفض، فإن:', en: 'If positive charge moves from high potential to low potential:' },
+                    options: [
+                        { ar: 'المجال يبذل شغلاً موجباً، طاقة الوضع تقل', en: 'Field does positive work, PE decreases' },
+                        { ar: 'المجال يبذل شغلاً سالباً', en: 'Field does negative work' },
+                        { ar: 'طاقة الوضع تزداد', en: 'PE increases' },
+                        { ar: 'لا يتغير شيء', en: 'Nothing changes' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الشحنة الموجبة تتحرك طبيعياً من الجهد العالي إلى المنخفض → W > 0, ΔU < 0', en: 'Positive charge naturally moves from high to low potential → W > 0, ΔU < 0' }
+                },
+                {
+                    q: { ar: 'ما العلاقة بين الشغل المبذول بواسطة المجال وفرق الجهد؟', en: 'What is the relationship between work done by field and potential difference?' },
+                    svg: svgGraphs.work_by_field,
+                    options: [
+                        { ar: '<span class="math-display">W = -qΔV</span>', en: '<span class="math-display">W = -qΔV</span>' },
+                        { ar: '<span class="math-display">W = qΔV</span>', en: '<span class="math-display">W = qΔV</span>' },
+                        { ar: '<span class="math-display">W = q/ΔV</span>', en: '<span class="math-display">W = q/ΔV</span>' },
+                        { ar: '<span class="math-display">W = ΔV/q</span>', en: '<span class="math-display">W = ΔV/q</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'W_field = -ΔU = -qΔV', en: 'W_field = -ΔU = -qΔV' }
+                },
+                {
+                    q: { ar: '1 eV (إلكترون فولت) يساوي:', en: '1 eV (electron volt) equals:' },
+                    options: [
+                        { ar: '<span class="math-display">1.6 × 10⁻¹⁹ J</span>', en: '<span class="math-display">1.6 × 10⁻¹⁹ J</span>' },
+                        { ar: '<span class="math-display">1.6 × 10⁻¹⁹ C</span>', en: '<span class="math-display">1.6 × 10¹⁹ C</span>' },
+                        { ar: '<span class="math-display">1.6 × 10⁻¹⁹ V</span>', en: '<span class="math-display">1.6 × 10⁻¹⁹ V</span>' },
+                        { ar: '<span class="math-display">9 × 10 J</span>', en: '<span class="math-display">9 × 10⁹ J</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '1 eV = 1.6 × 10⁻¹ J (طاقة إلكترون يتحرك خلال فرق جهد 1 V)', en: '1 eV = 1.6 × 10⁻¹⁹ J (energy of electron moving through 1 V potential difference)' }
+                }
+            ]
+        },
+        {
+            id: 'sec2',
+            title: { ar: '🔹 القسم 2: مثال 3.1 - البروتون بين اللوحين (Q6-Q10)', en: '🔹 Section 2: Example 3.1 - Proton Between Plates (Q6-Q10)' },
+            questions: [
+                {
+                    q: { ar: 'في مثال 3.1: بروتون يتحرر من السكون بين لوحين بفرق جهد 450 V. ما الطاقة الحركية النهائية للبروتون؟', en: 'Example 3.1: Proton released from rest between plates with ΔV = 450 V. Final kinetic energy?' },
+                    svg: svgGraphs.proton_between_plates,
+                    options: [
+                        { ar: '<span class="math-display">7.21 × 10⁻¹⁷ J</span>', en: '<span class="math-display">7.21 × 10⁻¹⁷ J</span>' },
+                        { ar: '<span class="math-display">4.50 × 10⁻¹⁷ J</span>', en: '<span class="math-display">4.50 × 10⁻¹⁷ J</span>' },
+                        { ar: '<span class="math-display">7.21 × 10⁻¹⁹ J</span>', en: '<span class="math-display">7.21 × 10⁻¹⁹ J</span>' },
+                        { ar: '<span class="math-display">450 J</span>', en: '<span class="math-display">450 J</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'K = -qΔV = -(1.602×10⁻¹⁹)(-450) = 7.21×10⁻¹⁷ J', en: 'K = -qΔV = -(1.602×10⁻¹⁹)(-450) = 7.21×10¹⁷ J' }
+                },
+                {
+                    q: { ar: 'نفس المثال: ما الطاقة الحركية بوحدة eV؟', en: 'Same example: What is kinetic energy in eV?' },
+                    options: [
+                        { ar: '<span class="math-display">450 eV</span>', en: '<span class="math-display">450 eV</span>' },
+                        { ar: '<span class="math-display">7.21 eV</span>', en: '<span class="math-display">7.21 eV</span>' },
+                        { ar: '<span class="math-display">225 eV</span>', en: '<span class="math-display">225 eV</span>' },
+                        { ar: '<span class="math-display">900 eV</span>', en: '<span class="math-display">900 eV</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'K = 450 eV (لأن البروتون شحنته +e وفرق الجهد 450 V)', en: 'K = 450 eV (because proton charge is +e and ΔV = 450 V)' }
+                },
+                {
+                    q: { ar: 'في نفس المثال، من أي لوح يبدأ البروتون؟', en: 'In same example, from which plate does proton start?' },
+                    options: [
+                        { ar: 'اللوح الموجب (يتحرك نحو السالب)', en: 'Positive plate (moves toward negative)' },
+                        { ar: 'اللوح السالب', en: 'Negative plate' },
+                        { ar: 'المنتصف', en: 'Middle' },
+                        { ar: 'خارج اللوحين', en: 'Outside plates' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'البروتون (موجب) يبدأ من اللوح الموجب ويتسارع نحو اللوح السالب', en: 'Proton (positive) starts at positive plate and accelerates toward negative plate' }
+                },
+                {
+                    q: { ar: 'لماذا ΔV سالب في حساب طاقة البروتون؟', en: 'Why is ΔV negative in proton energy calculation?' },
+                    options: [
+                        { ar: 'لأن البروتون يتحرك من جهد أعلى (موجب) إلى جهد أقل (سالب)', en: 'Because proton moves from higher potential (positive) to lower (negative)' },
+                        { ar: 'لأن شحنة البروتون سالبة', en: 'Because proton charge is negative' },
+                        { ar: 'لأن المجال سالب', en: 'Because field is negative' },
+                        { ar: 'لا سبب', en: 'No reason' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'ΔV = V_final - V_initial = (سالب) - (موجب) = سالب', en: 'ΔV = V_final - V_initial = (negative) - (positive) = negative' }
+                },
+                {
+                    q: { ar: 'إذا كان فرق الجهد 900 V بدلاً من 450 V، ما الطاقة الحركية للبروتون؟', en: 'If potential difference is 900 V instead of 450 V, what is proton kinetic energy?' },
+                    options: [
+                        { ar: '<span class="math-display">900 eV = 1.44 × 10⁻¹⁶ J</span>', en: '<span class="math-display">900 eV = 1.44 × 10⁻¹⁶ J</span>' },
+                        { ar: '<span class="math-display">450 eV</span>', en: '<span class="math-display">450 eV</span>' },
+                        { ar: '<span class="math-display">1800 eV</span>', en: '<span class="math-display">1800 eV</span>' },
+                        { ar: '<span class="math-display">225 eV</span>', en: '<span class="math-display">225 eV</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'K = qΔV = e(900 V) = 900 eV = 900 × 1.6×10⁻¹⁹ = 1.44×10⁻¹ J', en: 'K = qΔV = e(900 V) = 900 eV = 900 × 1.6×10⁻¹⁹ = 1.44×10⁻¹⁶ J' }
+                }
+            ]
+        },
+        {
+            id: 'sec3',
+            title: { ar: '🔹 القسم 3: مسألة 3.1 - حزمة أيونات الأكسجين (Q11-Q15)', en: '🔹 Section 3: Problem 3.1 - Oxygen Ion Beam (Q11-Q15)' },
+            questions: [
+                {
+                    q: { ar: 'في مسألة 3.1: أيونات أكسجين Z = 8 تُسرع بفرق جهد V = 1.00 × 10⁷ V. ما طاقة كل أيون؟', en: 'Problem 3.1: Oxygen ions Z = 8 accelerated by V = 1.00 × 10⁷ V. Energy per ion?' },
+                    svg: svgGraphs.oxygen_ion_beam,
+                    options: [
+                        { ar: '<span class="math-display">U_ion = ZeV = 1.28 × 10⁻¹¹ J</span>', en: '<span class="math-display">U_ion = ZeV = 1.28 × 10⁻¹¹ J</span>' },
+                        { ar: '<span class="math-display">U_ion = eV = 1.6 × 10¹² J</span>', en: '<span class="math-display">U_ion = eV = 1.6 × 10⁻¹² J</span>' },
+                        { ar: '<span class="math-display">U_ion = 8eV = 1.28 × 10⁻¹² J</span>', en: '<span class="math-display">U_ion = 8eV = 1.28 × 10⁻¹² J</span>' },
+                        { ar: '<span class="math-display">U_ion = 64eV</span>', en: '<span class="math-display">U_ion = 64eV</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'U_ion = ZeV = (8)(1.602×10⁻¹⁹)(1.00×10⁷) = 1.28×10⁻¹¹ J', en: 'U_ion = ZeV = (8)(1.602×10⁻¹⁹)(1.00×10⁷) = 1.28×10⁻¹¹ J' }
+                },
+                {
+                    q: { ar: 'نفس المسألة: إذا كانت الحزمة تحتوي N = 3.13 × 10¹² أيون/ثانية، ما القدرة؟', en: 'Same problem: If beam has N = 3.13 × 10¹² ions/second, what is power?' },
+                    options: [
+                        { ar: '<span class="math-display">P ≈ 40.1 W</span>', en: '<span class="math-display">P ≈ 40.1 W</span>' },
+                        { ar: '<span class="math-display">P ≈ 400 W</span>', en: '<span class="math-display">P ≈ 400 W</span>' },
+                        { ar: '<span class="math-display">P ≈ 4.01 W</span>', en: '<span class="math-display">P ≈ 4.01 W</span>' },
+                        { ar: '<span class="math-display">P ≈ 0.401 W</span>', en: '<span class="math-display">P ≈ 0.401 W</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'P = NZeV = (3.13×10¹²)(8)(1.602×10⁻¹⁹)(1.00×10⁷) ≈ 40.1 W', en: 'P = NZeV = (3.13×10¹²)(8)(1.602×10¹⁹)(1.00×10⁷) ≈ 40.1 W' }
+                },
+                {
+                    q: { ar: 'نفس المسألة: ما سرعة الأيونات إذا كانت كتلة نواة الأكسجين 2.66 × 10⁻²⁶ kg؟', en: 'Same problem: What is ion velocity if oxygen nucleus mass is 2.66 × 10⁻² kg?' },
+                    options: [
+                        { ar: '<span class="math-display">≈ 3.10 × 10⁷ m/s</span>', en: '<span class="math-display">≈ 3.10 × 10⁷ m/s</span>' },
+                        { ar: '<span class="math-display">≈ 3.10 × 10⁶ m/s</span>', en: '<span class="math-display">≈ 3.10 × 10⁶ m/s</span>' },
+                        { ar: '<span class="math-display">≈ 3.0 × 10⁸ m/s</span>', en: '<span class="math-display">≈ 3.0 × 10⁸ m/s</span>' },
+                        { ar: '<span class="math-display">≈ 1.55 × 10⁷ m/s</span>', en: '<span class="math-display">≈ 1.55 × 10⁷ m/s</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'v = √(2ZeV/m) = √(2(8)(1.602×10⁻¹⁹)(10⁷)/(2.66×10⁻²⁶)) ≈ 3.10×10⁷ m/s', en: 'v = √(2ZeV/m) ≈ 3.10×10⁷ m/s' }
+                },
+                {
+                    q: { ar: 'سرعة الأيونات في المسألة السابقة تمثل حوالي كم من سرعة الضوء؟', en: 'Ion velocity in previous problem is approximately what fraction of speed of light?' },
+                    options: [
+                        { ar: '10% من سرعة الضوء', en: '10% of speed of light' },
+                        { ar: '50% من سرعة الضوء', en: '50% of speed of light' },
+                        { ar: '1% من سرعة الضوء', en: '1% of speed of light' },
+                        { ar: '100% من سرعة الضوء', en: '100% of speed of light' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'v/c = 3.10×10⁷/3×10⁸ ≈ 0.103 ≈ 10%', en: 'v/c = 3.10×10⁷/3×10⁸ ≈ 0.103 ≈ 10%' }
+                },
+                {
+                    q: { ar: 'في مسألة 3.1، عدد البروتونات في نواة الأكسجين:', en: 'In problem 3.1, number of protons in oxygen nucleus:' },
+                    options: [
+                        { ar: '<span class="math-display">8</span> (العدد الذري Z = 8)', en: '<span class="math-display">8</span> (atomic number Z = 8)' },
+                        { ar: '<span class="math-display">16</span>', en: '<span class="math-display">16</span>' },
+                        { ar: '<span class="math-display">6</span>', en: '<span class="math-display">6</span>' },
+                        { ar: '<span class="math-display">10</span>', en: '<span class="math-display">10</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الأكسجين عدده الذري Z = 8، أي 8 بروتونات', en: 'Oxygen atomic number Z = 8, meaning 8 protons' }
+                }
+            ]
+        },
+        {
+            id: 'sec4',
+            title: { ar: '🔹 القسم 4: مسألة 3.27 - شغل تحريك بروتون (Q16-Q20)', en: '🔹 Section 4: Problem 3.27 - Work Moving Proton (Q16-Q20)' },
+            questions: [
+                {
+                    q: { ar: 'مسألة 3.27: ما الشغل المبذول لتحريك بروتون من نقطة جهدها +180 V إلى نقطة جهدها -60.0 V؟', en: 'Problem 3.27: Work to move proton from +180 V point to -60.0 V point?' },
+                    svg: svgGraphs.potential_difference,
+                    options: [
+                        { ar: '<span class="math-display">3.84 × 10⁻¹⁷ J</span>', en: '<span class="math-display">3.84 × 10⁻¹⁷ J</span>' },
+                        { ar: '<span class="math-display">-3.84 × 10⁻¹⁷ J</span>', en: '<span class="math-display">-3.84 × 10⁻¹⁷ J</span>' },
+                        { ar: '<span class="math-display">2.88 × 10⁻¹⁷ J</span>', en: '<span class="math-display">2.88 × 10⁻¹⁷ J</span>' },
+                        { ar: '<span class="math-display">1.80 × 10⁻¹⁷ J</span>', en: '<span class="math-display">1.80 × 10¹⁷ J</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'ΔV = -60 - 180 = -240 V. W = -qΔV = -(1.6×10¹⁹)(-240) = 3.84×10⁻¹⁷ J', en: 'ΔV = -60 - 180 = -240 V. W = -qΔV = -(1.6×10⁻¹⁹)(-240) = 3.84×10⁻¹⁷ J' }
+                },
+                {
+                    q: { ar: 'نفس المسألة: ما التغير في طاقة وضع البروتون؟', en: 'Same problem: What is change in proton potential energy?' },
+                    options: [
+                        { ar: '<span class="math-display">-3.84 × 10⁻¹ J</span>', en: '<span class="math-display">-3.84 × 10⁻¹⁷ J</span>' },
+                        { ar: '<span class="math-display">+3.84 × 10⁻¹ J</span>', en: '<span class="math-display">+3.84 × 10⁻¹⁷ J</span>' },
+                        { ar: '<span class="math-display">0</span>', en: '<span class="math-display">0</span>' },
+                        { ar: '<span class="math-display">-2.88 × 10⁻¹⁷ J</span>', en: '<span class="math-display">-2.88 × 10⁻¹⁷ J</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'ΔU = qΔV = (1.6×10⁻¹⁹)(-240) = -3.84×10⁻¹⁷ J', en: 'ΔU = qΔV = (1.6×10⁻¹⁹)(-240) = -3.84×10⁻¹⁷ J' }
+                },
+                {
+                    q: { ar: 'نفس المسألة: إذا أُطلق البروتون من السكون عند +180 V، ما طاقته الحركية عند -60 V؟', en: 'Same problem: If proton released from rest at +180 V, what is KE at -60 V?' },
+                    options: [
+                        { ar: '<span class="math-display">3.84 × 10⁻¹⁷ J</span>', en: '<span class="math-display">3.84 × 10⁻¹⁷ J</span>' },
+                        { ar: '<span class="math-display">2.88 × 10⁻¹ J</span>', en: '<span class="math-display">2.88 × 10⁻¹⁷ J</span>' },
+                        { ar: '<span class="math-display">0</span>', en: '<span class="math-display">0</span>' },
+                        { ar: '<span class="math-display">-3.84 × 10⁻¹⁷ J</span>', en: '<span class="math-display">-3.84 × 10⁻¹ J</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'K = -ΔU = +3.84×10⁻¹⁷ J (حفظ الطاقة: ΔK + ΔU = 0)', en: 'K = -ΔU = +3.84×10⁻¹⁷ J (energy conservation: ΔK + ΔU = 0)' }
+                },
+                {
+                    q: { ar: 'نفس المسألة: ما طاقة البروتون الحركية بوحدة eV؟', en: 'Same problem: What is proton kinetic energy in eV?' },
+                    options: [
+                        { ar: '<span class="math-display">240 eV</span>', en: '<span class="math-display">240 eV</span>' },
+                        { ar: '<span class="math-display">180 eV</span>', en: '<span class="math-display">180 eV</span>' },
+                        { ar: '<span class="math-display">60 eV</span>', en: '<span class="math-display">60 eV</span>' },
+                        { ar: '<span class="math-display">120 eV</span>', en: '<span class="math-display">120 eV</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'K = 240 eV (لأن البروتون شحنته +e وفرق الجهد 240 V)', en: 'K = 240 eV (because proton charge is +e and ΔV = 240 V)' }
+                },
+                {
+                    q: { ar: 'إذا تحرك إلكترون (بدلاً من بروتون) بين نفس النقطتين، ما التغير في طاقة وضعه؟', en: 'If electron (instead of proton) moves between same points, what is change in PE?' },
+                    options: [
+                        { ar: '<span class="math-display">+3.84 × 10⁻¹⁷ J</span> (موجب لأن شحنة الإلكترون سالبة)', en: '<span class="math-display">+3.84 × 10⁻¹⁷ J</span> (positive because electron charge is negative)' },
+                        { ar: '<span class="math-display">-3.84 × 10¹⁷ J</span>', en: '<span class="math-display">-3.84 × 10⁻¹⁷ J</span>' },
+                        { ar: '<span class="math-display">0</span>', en: '<span class="math-display">0</span>' },
+                        { ar: '<span class="math-display">+1.92 × 10⁻¹⁷ J</span>', en: '<span class="math-display">+1.92 × 10⁻¹⁷ J</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'ΔU = qΔV = (-1.6×10⁻¹⁹)(-240) = +3.84×10⁻¹⁷ J (موجب لأن شحنة الإلكترون سالبة)', en: 'ΔU = qΔV = (-1.6×10⁻¹⁹)(-240) = +3.84×10⁻¹⁷ J (positive because electron charge is negative)' }
+                }
+            ]
+        },
+        {
+            id: 'sec5',
+            title: { ar: '🔹 القسم 5: مسألة 3.28 - جسيم ألفا (Q21-Q25)', en: '🔹 Section 5: Problem 3.28 - Alpha Particle (Q21-Q25)' },
+            questions: [
+                {
+                    q: { ar: 'مسألة 3.28: ما فرق الجهد اللازم لتسريع جسيم ألفا (2 بروتون + 2 نيوترون) بطاقة 200 keV؟', en: 'Problem 3.28: What potential difference needed to accelerate alpha particle (2p + 2n) to 200 keV?' },
+                    svg: svgGraphs.alpha_particle,
+                    options: [
+                        { ar: '<span class="math-display">100 kV</span>', en: '<span class="math-display">100 kV</span>' },
+                        { ar: '<span class="math-display">200 kV</span>', en: '<span class="math-display">200 kV</span>' },
+                        { ar: '<span class="math-display">50 kV</span>', en: '<span class="math-display">50 kV</span>' },
+                        { ar: '<span class="math-display">400 kV</span>', en: '<span class="math-display">400 kV</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'جسيم ألفا شحنته +2e. K = qΔV → ΔV = K/q = 200 keV/2e = 100 kV', en: 'Alpha particle charge is +2e. K = qΔV → ΔV = K/q = 200 keV/2e = 100 kV' }
+                },
+                {
+                    q: { ar: 'ما شحنة جسيم ألفا؟', en: 'What is charge of alpha particle?' },
+                    options: [
+                        { ar: '<span class="math-display">+2e = +3.2 × 10⁻¹⁹ C</span>', en: '<span class="math-display">+2e = +3.2 × 10⁻¹⁹ C</span>' },
+                        { ar: '<span class="math-display">+e</span>', en: '<span class="math-display">+e</span>' },
+                        { ar: '<span class="math-display">+4e</span>', en: '<span class="math-display">+4e</span>' },
+                        { ar: '<span class="math-display">0</span>', en: '<span class="math-display">0</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'جسيم ألفا = نواة هيليوم = 2 بروتون + 2 نيوترون → شحنته +2e', en: 'Alpha particle = helium nucleus = 2 protons + 2 neutrons → charge +2e' }
+                },
+                {
+                    q: { ar: '200 keV بالجول تساوي:', en: '200 keV in Joules equals:' },
+                    options: [
+                        { ar: '<span class="math-display">3.2 × 10⁻¹ J</span>', en: '<span class="math-display">3.2 × 10⁻¹⁴ J</span>' },
+                        { ar: '<span class="math-display">2.0 × 10⁵ J</span>', en: '<span class="math-display">2.0 × 10⁵ J</span>' },
+                        { ar: '<span class="math-display">3.2 × 10⁻¹⁶ J</span>', en: '<span class="math-display">3.2 × 10⁻¹⁶ J</span>' },
+                        { ar: '<span class="math-display">2.0 × 10¹⁴ J</span>', en: '<span class="math-display">2.0 × 10⁻¹⁴ J</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '200 keV = 200×10³ × 1.6×10⁻¹⁹ = 3.2×10⁻¹⁴ J', en: '200 keV = 200×10³ × 1.6×10⁻¹⁹ = 3.2×10⁻¹⁴ J' }
+                },
+                {
+                    q: { ar: 'إذا سُرع بروتون بنفس فرق الجهد (100 kV)، ما طاقته الحركية؟', en: 'If proton accelerated by same potential difference (100 kV), what is its KE?' },
+                    options: [
+                        { ar: '<span class="math-display">100 keV</span>', en: '<span class="math-display">100 keV</span>' },
+                        { ar: '<span class="math-display">200 keV</span>', en: '<span class="math-display">200 keV</span>' },
+                        { ar: '<span class="math-display">50 keV</span>', en: '<span class="math-display">50 keV</span>' },
+                        { ar: '<span class="math-display">100 J</span>', en: '<span class="math-display">100 J</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'K = qΔV = e(100 kV) = 100 keV', en: 'K = qΔV = e(100 kV) = 100 keV' }
+                },
+                {
+                    q: { ar: 'لماذا جسيم ألفا يحتاج نصف فرق الجهد الذي يحتاجه البروتون لنفس الطاقة الحركية؟', en: 'Why does alpha particle need half the potential difference of proton for same KE?' },
+                    options: [
+                        { ar: 'لأن شحنة ألفا ضعف شحنة البروتون (+2e vs +e)', en: 'Because alpha charge is double proton charge (+2e vs +e)' },
+                        { ar: 'لأن كتلة ألفا أكبر', en: 'Because alpha mass is larger' },
+                        { ar: 'لأن ألفا متعادل', en: 'Because alpha is neutral' },
+                        { ar: 'لا سبب', en: 'No reason' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'K = qΔV، إذا q_α = 2q_p، فإن ΔV_α = ΔV_p/2 لنفس K', en: 'K = qΔV, if q_α = 2q_p, then ΔV_α = ΔV_p/2 for same K' }
+                }
+            ]
+        },
+        {
+            id: 'sec6',
+            title: { ar: '🔹 القسم 6: مسائل مركبة (Q26-Q30)', en: '🔹 Section 6: Mixed Problems (Q26-Q30)' },
+            questions: [
+                {
+                    q: { ar: 'إلكترون يتسارع من السكون خلال فرق جهد 1000 V. ما طاقته الحركية النهائية؟', en: 'Electron accelerates from rest through 1000 V potential difference. Final KE?' },
+                    svg: svgGraphs.energy_conservation,
+                    options: [
+                        { ar: '<span class="math-display">1000 eV = 1.6 × 10⁻¹⁶ J</span>', en: '<span class="math-display">1000 eV = 1.6 × 10¹⁶ J</span>' },
+                        { ar: '<span class="math-display">500 eV</span>', en: '<span class="math-display">500 eV</span>' },
+                        { ar: '<span class="math-display">2000 eV</span>', en: '<span class="math-display">2000 eV</span>' },
+                        { ar: '<span class="math-display">100 eV</span>', en: '<span class="math-display">100 eV</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'K = |qΔV| = e(1000 V) = 1000 eV = 1.6×10⁻¹⁶ J', en: 'K = |qΔV| = e(1000 V) = 1000 eV = 1.6×10¹⁶ J' }
+                },
+                {
+                    q: { ar: 'نفس الإلكترون: ما سرعته النهائية؟ (m_e = 9.11 × 10³¹ kg)', en: 'Same electron: what is final velocity? (m_e = 9.11 × 10⁻³¹ kg) kg)' },
+                    options: [
+                        { ar: '<span class="math-display">≈ 1.87 × 10⁷ m/s</span>', en: '<span class="math-display">≈ 1.87 × 10 m/s</span>' },
+                        { ar: '<span class="math-display">≈ 3 × 10⁸ m/s</span>', en: '<span class="math-display">≈ 3 × 10⁸ m/s</span>' },
+                        { ar: '<span class="math-display">≈ 1.87 × 10⁶ m/s</span>', en: '<span class="math-display">≈ 1.87 × 10⁶ m/s</span>' },
+                        { ar: '<span class="math-display">≈ 5.93 × 10⁵ m/s</span>', en: '<span class="math-display">≈ 5.93 × 10⁵ m/s</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'v = √(2K/m) = √(2×1.6×10⁻¹⁶/9.11×10⁻³¹) ≈ 1.87×10⁷ m/s', en: 'v = √(2K/m) = √(2×1.6×10¹⁶/9.11×10⁻³¹) ≈ 1.87×10⁷ m/s' }
+                },
+                {
+                    q: { ar: 'بروتون وإلكترون يتسارعان خلال نفس فرق الجهد. أيهما يكتسب طاقة حركية أكبر؟', en: 'Proton and electron accelerate through same potential difference. Which gains more KE?' },
+                    options: [
+                        { ar: 'كلاهما يكتسب نفس الطاقة الحركية', en: 'Both gain same kinetic energy' },
+                        { ar: 'البروتون أكثر', en: 'Proton more' },
+                        { ar: 'الإلكترون أكثر', en: 'Electron more' },
+                        { ar: 'لا يمكن التحديد', en: 'Cannot determine' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'K = |qΔV|، وكلاهما له نفس |q| = e، لذا نفس الطاقة الحركية', en: 'K = |qΔV|, both have same |q| = e, so same kinetic energy' }
+                },
+                {
+                    q: { ar: 'نفس السؤال: أيهما يصل لسرعة أكبر؟', en: 'Same question: Which reaches higher speed?' },
+                    options: [
+                        { ar: 'الإلكترون (لأن كتلته أصغر)', en: 'Electron (because its mass is smaller)' },
+                        { ar: 'البروتون', en: 'Proton' },
+                        { ar: 'نفس السرعة', en: 'Same speed' },
+                        { ar: 'لا يمكن التحديد', en: 'Cannot determine' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'v = √(2K/m)، الإلكترون أخف → سرعة أكبر', en: 'v = (2K/m), electron is lighter → higher speed' }
+                },
+                {
+                    q: { ar: 'أيون كربون C⁶⁺ (Z=6) يُسرع بفرق جهد 5 MV. ما طاقته الحركية؟', en: 'Carbon ion C⁶⁺ (Z=6) accelerated by 5 MV potential difference. What is its KE?' },
+                    options: [
+                        { ar: '<span class="math-display">30 MeV</span>', en: '<span class="math-display">30 MeV</span>' },
+                        { ar: '<span class="math-display">5 MeV</span>', en: '<span class="math-display">5 MeV</span>' },
+                        { ar: '<span class="math-display">6 MeV</span>', en: '<span class="math-display">6 MeV</span>' },
+                        { ar: '<span class="math-display">11 MeV</span>', en: '<span class="math-display">11 MeV</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'K = ZeV = (6)(e)(5×10 V) = 30 MeV', en: 'K = ZeV = (6)(e)(5×10⁶ V) = 30 MeV' }
+                }
+            ]
+        }
+    ]
+};
+
+function shuffleArray(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(rng() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+function prepareShuffledExam() {
+    rng = mulberry32(currentSeed);
+    examData = JSON.parse(JSON.stringify(originalExamData));
+    correctAnswersMap = {};
+    let globalIdx = 0;
+    examData.sections.forEach((section) => {
+        section.questions = shuffleArray(section.questions);
+        section.questions.forEach((q) => {
+            const optionsWithCorrect = q.options.map((opt, idx) => ({ option: opt, isCorrect: idx === q.correct }));
+            const shuffledOptions = shuffleArray(optionsWithCorrect);
+            q.options = shuffledOptions.map(o => o.option);
+            q.correct = shuffledOptions.findIndex(o => o.isCorrect);
+            correctAnswersMap[globalIdx] = String.fromCharCode(97 + q.correct);
+            globalIdx++;
+        });
+    });
+}
+
+function reshuffleExam() {
+    const msg = currentLang === 'ar' ? '🔄 سيتم إنشاء أسئلة جديدة ومسح إجاباتك. هل أنت متأكد؟' : '🔄 New questions will be generated. Are you sure?';
+    if (confirm(msg)) {
+        currentSeed = Date.now(); timeRemaining = TOTAL_TIME; answersVisible = false;
+        prepareShuffledExam(); renderExam(); saveState();
+        alert(currentLang === 'ar' ? '🎲 تم تغيير الأسئلة! حظاً موفقاً! 🍀' : '🎲 Questions changed! Good luck! 🍀');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+function setLanguage(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.getElementById('btn-ar').classList.toggle('active', lang === 'ar');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.body.classList.toggle('en-mode', lang === 'en');
+    renderExam(); saveState(false);
+}
+
+function renderExam() {
+    const container = document.getElementById('exam-content');
+    const labels = { ar: { option: ['أ', 'ب', 'ج', 'د'], answer: '✅ الإجابة:' }, en: { option: ['A', 'B', 'C', 'D'], answer: '✅ Answer:' } };
+    const lbl = labels[currentLang];
+    let html = '';
+    let globalIdx = 0;
+    
+    examData.sections.forEach((section, secIdx) => {
+        const badgeClass = ['module-1', 'module-2', 'module-3', 'module-4', 'module-5', 'module-6'][secIdx];
+        html += '<section class="bg-white p-6 rounded-2xl shadow-lg border-2 border-amber-100">';
+        html += '<div class="text-center mb-4"><span class="module-badge ' + badgeClass + '">' + section.title[currentLang] + '</span></div>';
+        html += '<ol class="space-y-4 text-sm">';
+        
+        section.questions.forEach((q) => {
+            html += '<li class="border-r-4 border-amber-400 pr-4 py-2" id="q-' + globalIdx + '">';
+            html += '<strong class="text-amber-700">' + (globalIdx + 1) + '.</strong> <span class="arabic-math">' + q.q[currentLang] + '</span><br>';
+            if (q.svg) html += '<div class="graph-container">' + q.svg + '</div>';
+            
+            q.options.forEach((opt, oIdx) => {
+                html += '<label class="cursor-pointer block mt-2 mr-4 hover:bg-amber-50 rounded-lg p-2 transition">';
+                html += '<input type="radio" name="q' + globalIdx + '" value="' + String.fromCharCode(97 + oIdx) + '" class="mr-2 ml-2">';
+                html += '<span class="arabic-math">' + lbl.option[oIdx] + ') ' + opt[currentLang] + '</span>';
+                html += '</label>';
+            });
+            
+            html += '<div class="answer-box text-green-700 mt-3 font-medium ' + (answersVisible ? '' : 'hidden') + ' bg-green-50 rounded-lg p-3 border border-green-200">';
+            html += lbl.answer + ' ' + lbl.option[q.correct] + ') <span class="arabic-math">' + q.options[q.correct][currentLang] + '</span><br>';
+            html += '<span class="text-sm text-green-700 mt-2 block arabic-math">' + q.answer[currentLang] + '</span>';
+            html += '</div></li>';
+            globalIdx++;
+        });
+        
+        html += '</ol></section>';
+    });
+    
+    container.innerHTML = html;
+}
+
+function startTimer() {
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+        if (timeRemaining % 60 === 0) saveState(false);
+        if (timeRemaining <= 600) document.getElementById('timer').classList.add('timer-warning');
+        if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            alert(" انتهى الوقت!");
+            gradeExam();
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const m = Math.floor(timeRemaining / 60);
+    const s = timeRemaining % 60;
+    document.getElementById('timer').textContent = m.toString().padStart(2,'0') + ':' + s.toString().padStart(2,'0');
+}
+
+function toggleAnswers() {
+    answersVisible = !answersVisible;
+    document.querySelectorAll('.answer-box').forEach(el => el.classList.toggle('hidden', !answersVisible));
+    saveState(false);
+}
+
+function gradeExam() {
+    let correctCount = 0;
+    const sectionScores = new Array(TOTAL_SECTIONS).fill(0);
+    
+    for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+        const sel = document.querySelector('input[name="q'+i+'"]:checked');
+        const li = document.getElementById('q-' + i);
+        if (li) {
+            const isCorrect = sel && sel.value === correctAnswersMap[i];
+            if (isCorrect) {
+                correctCount++;
+                li.classList.add('correct');
+                li.classList.remove('incorrect');
+                sectionScores[Math.floor(i / QUESTIONS_PER_SECTION)]++;
+            } else {
+                li.classList.add('incorrect');
+                li.classList.remove('correct');
+            }
+        }
+    }
+    
+    const score = Math.round((correctCount / TOTAL_QUESTIONS) * 100);
+    document.getElementById('res-total').textContent = score + ' / 100';
+    document.getElementById('res-name').textContent = document.getElementById('studentName').value || 'بطل';
+    document.getElementById('res-date').textContent = new Date().toLocaleDateString('ar-AE');
+    
+    const pc = document.getElementById('sections-performance');
+    pc.innerHTML = '';
+    examData.sections.forEach((s, idx) => {
+        pc.innerHTML += '<div class="flex justify-between items-center p-3 bg-white rounded-lg"><span class="text-gray-700">' + s.title[currentLang] + '</span><span class="font-bold text-amber-700">' + sectionScores[idx] + '/' + QUESTIONS_PER_SECTION + '</span></div>';
+    });
+    
+    const badge = document.getElementById('success-badge');
+    document.getElementById('success-percent').textContent = score + '%';
+    
+    if (currentLang === 'ar') {
+        if (score >= 90) { badge.textContent = ' ممتاز جداً!'; badge.className = 'success-badge grade-excellent'; }
+        else if (score >= 75) { badge.textContent = '👏 ممتاز!'; badge.className = 'success-badge grade-good'; }
+        else if (score >= 50) { badge.textContent = '👍 جيد'; badge.className = 'success-badge grade-pass'; }
+        else { badge.textContent = '💪 حاول مرة أخرى'; badge.className = 'success-badge grade-fail'; }
+    } else {
+        if (score >= 90) { badge.textContent = '🌟 Outstanding!'; badge.className = 'success-badge grade-excellent'; }
+        else if (score >= 75) { badge.textContent = '👏 Excellent!'; badge.className = 'success-badge grade-good'; }
+        else if (score >= 50) { badge.textContent = ' Good'; badge.className = 'success-badge grade-pass'; }
+        else { badge.textContent = '💪 Try Again'; badge.className = 'success-badge grade-fail'; }
+    }
+    
+    document.getElementById('results-panel').classList.remove('hidden');
+    document.getElementById('results-panel').scrollIntoView({ behavior: 'smooth' });
+    if (timerInterval) clearInterval(timerInterval);
+}
+
+function sendResultsToEmail() {
+    const btn = document.getElementById('sendEmailBtn');
+    const status = document.getElementById('emailStatus');
+    btn.disabled = true;
+    btn.textContent = '⏳ جاري الإرسال...';
+    
+    const name = document.getElementById('studentName').value || 'غير محدد';
+    const studentClass = document.getElementById('studentClass').value || 'غير محدد';
+    const date = document.getElementById('examDate').value || new Date().toLocaleDateString();
+    const score = document.getElementById('res-total').textContent;
+    const successRate = document.getElementById('success-percent').textContent;
+    const badge = document.getElementById('success-badge').textContent;
+    
+    let questionsHTML = '<table style="width:100%; border-collapse: collapse; font-family: Arial; font-size: 12px; direction: rtl;">';
+    questionsHTML += '<thead><tr style="background:#d97706; color:white;"><th style="padding:8px; border:1px solid #ddd;">#</th><th style="padding:8px; border:1px solid #ddd;">السؤال</th><th style="padding:8px; border:1px solid #ddd;">إجابة الطالب</th><th style="padding:8px; border:1px solid #ddd;">الصحيحة</th><th style="padding:8px; border:1px solid #ddd;">النتيجة</th></tr></thead><tbody>';
+    
+    let globalIdx = 0;
+    examData.sections.forEach((section) => {
+        questionsHTML += '<tr style="background:#fef3c7;"><td colspan="5" style="padding:8px; font-weight:bold; border:1px solid #ddd;">' + section.title.ar + '</td></tr>';
+        section.questions.forEach((q) => {
+            const sel = document.querySelector('input[name="q'+globalIdx+'"]:checked');
+            const sv = sel ? sel.value : null;
+            const cv = correctAnswersMap[globalIdx];
+            const ic = sv === cv;
+            let sat = '❌ لم يجب';
+            let sac = '#dc2626';
+            if (sv) {
+                const si = sv.charCodeAt(0) - 97;
+                sat = q.options[si].ar;
+                sac = ic ? '#16a34a' : '#dc2626';
+            }
+            const cat = q.options[q.correct].ar;
+            const rb = ic ? '#f0fdf4' : '#fef2f2';
+            questionsHTML += '<tr style="background:' + rb + ';"><td style="padding:8px; border:1px solid #ddd; text-align:center;">' + (globalIdx+1) + '</td><td style="padding:8px; border:1px solid #ddd;">' + q.q.ar + '</td><td style="padding:8px; border:1px solid #ddd; color:' + sac + ';">' + sat + '</td><td style="padding:8px; border:1px solid #ddd; color:#16a34a;">' + cat + '</td><td style="padding:8px; border:1px solid #ddd; text-align:center;">' + (ic?'✅':'❌') + '</td></tr>';
+            globalIdx++;
+        });
+    });
+    questionsHTML += '</tbody></table>';
+    
+    const templateParams = {
+        to_email: TARGET_EMAIL,
+        student_name: name,
+        student_class: studentClass,
+        exam_date: date,
+        total_score: score,
+        success_rate: successRate,
+        grade: badge,
+        answers_table: questionsHTML
+    };
+    
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
+        .then(() => {
+            status.textContent = '✅ تم الإرسال بنجاح!';
+            status.style.color = '#16a34a';
+            btn.textContent = '✓ تم';
+            alert('تم إرسال النتيجة للمعلم بنجاح!');
+        })
+        .catch((error) => {
+            status.textContent = '❌ فشل الإرسال';
+            status.style.color = '#dc2626';
+            btn.disabled = false;
+            btn.textContent = '📧 حاول مرة أخرى';
+            alert('فشل الإرسال: ' + error.text);
+        });
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    const saved = loadState();
+    if (saved && saved.seed) {
+        currentSeed = saved.seed;
+        currentLang = saved.lang || 'ar';
+        timeRemaining = saved.timeRemaining !== undefined ? saved.timeRemaining : TOTAL_TIME;
+        answersVisible = saved.answersVisible || false;
+        document.getElementById('btn-ar').classList.toggle('active', currentLang === 'ar');
+        document.getElementById('btn-en').classList.toggle('active', currentLang === 'en');
+        document.body.classList.toggle('en-mode', currentLang === 'en');
+    } else {
+        currentSeed = Date.now();
+    }
+    prepareShuffledExam();
+    renderExam();
+    if (saved) {
+        if (saved.studentName) document.getElementById('studentName').value = saved.studentName;
+        if (saved.studentClass) document.getElementById('studentClass').value = saved.studentClass;
+        if (saved.examDate) document.getElementById('examDate').value = saved.examDate;
+        if (saved.answers) restoreAnswers(saved.answers);
+    }
+    setupAnswerListeners();
+    setupInputListeners();
+    startTimer();
+});
+window.addEventListener('beforeunload', () => saveState(false));
+</script>
+</body>
+</html>
